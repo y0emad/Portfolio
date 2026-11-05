@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-y-stack.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Yousef Emad, full stack developer in Cairo. Projects served by a real API I built."
+    />
+    <meta name="theme-color" content="#09090b" />
+    <meta name="author" content="Yousef Emad" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="yousef.dev" />
+    <meta property="og:title" content="Yousef Emad · Full Stack Developer" />
+    <meta
+      property="og:description"
+      content="I build APIs, web apps and systems that run in production. React, Node.js, TypeScript and PostgreSQL, deployed on AWS."
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Yousef Emad, Full Stack Developer: I build APIs, web apps and systems that run in production."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Yousef Emad · Full Stack Developer" />
+    <meta
+      name="twitter:description"
+      content="I build APIs, web apps and systems that run in production. React, Node.js, TypeScript and PostgreSQL."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <style>
+      html {
+        background: #09090b;
+        color: #fafafa;
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+      }
+      .splash {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+      }
+      .splash-name {
+        font:
+          15px ui-monospace,
+          Consolas,
+          monospace;
+        color: #10b981;
+      }
+      .splash-bar {
+        width: 120px;
+        height: 2px;
+        border-radius: 2px;
+        background: #27272a;
+        overflow: hidden;
+      }
+      .splash-bar::after {
+        content: '';
+        display: block;
+        width: 40%;
+        height: 100%;
+        background: #10b981;
+        animation: splash 1s ease-in-out infinite;
+      }
+      @keyframes splash {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(250%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .splash-bar::after {
+          animation: none;
+          width: 100%;
+        }
+      }
+    </style>
+    <title>Yousef Emad — Full Stack Developer</title>
+  </head>
+  <body>
+    <div id="root">
+      <div class="splash" role="status" aria-label="Loading">
+        <span class="splash-name">yousef.dev</span>
+        <span class="splash-bar"></span>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

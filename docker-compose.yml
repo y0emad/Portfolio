@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: Portfolio
+      POSTGRES_PASSWORD: Portfolio
+      POSTGRES_DB: Portfolio
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U Portfolio -d Portfolio']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://Portfolio:Portfolio@db:5432/Portfolio
+      PORT: 3000
+    ports:
+      - '3002:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
