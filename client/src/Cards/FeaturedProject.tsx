@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import type { Project } from '../types'
+import { ArrowUpRight } from '../components/ArrowUpRight'
 
 function BrowserFrame({ src, alt, url }: { src: string; alt: string; url: string }) {
   return (
@@ -86,7 +87,7 @@ export function FeaturedProject({ project }: { project: Project }) {
               rel="noreferrer"
               className="relative z-10 rounded-lg border border-line px-3.5 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
             >
-              Open the live site ↗
+              Open the live site <ArrowUpRight />
             </a>
           )}
         </div>

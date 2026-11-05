@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import axios from 'axios'
 import { PageHeader } from '../components/PageHeader'
 import { api, getErrorMessage } from '../lib/api'
+import { ArrowUpRight } from '../components/ArrowUpRight'
 
 const LIMITS = { name: [2, 100], email: [3, 255], body: [10, 2000] } as const
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -313,7 +314,9 @@ export function ContactPage() {
                 className="group flex items-center justify-between gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-line/60"
               >
                 <span className="text-sm text-muted">{l.label}</span>
-                <span className="font-mono text-sm group-hover:text-accent">{l.value} ↗</span>
+                <span className="font-mono text-sm group-hover:text-accent">
+                  {l.value} <ArrowUpRight />
+                </span>
               </a>
             ))}
           </div>

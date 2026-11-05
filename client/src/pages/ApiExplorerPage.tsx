@@ -284,7 +284,7 @@ export function ApiExplorerPage() {
                 />
                 {bodyError && <p className="text-sm text-danger">{bodyError}</p>}
                 {!dryRun && (
-                  <p className="text-sm text-amber-300">
+                  <p className="text-sm text-warn">
                     This will save a real message and send me an email. Try breaking the body too: an empty name or a
                     bad email gets a 400 with the reason.
                   </p>

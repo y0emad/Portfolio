@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ArrowUpRight } from './ArrowUpRight'
 
 const SLOW_MS = 12_000
 
@@ -29,7 +30,7 @@ function FigmaLoader({ slow, url }: { slow: boolean; url: string }) {
           rel="noreferrer"
           className="rounded-lg border border-line px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
         >
-          Open it in Figma instead ↗
+          Open it in Figma instead <ArrowUpRight />
         </a>
       )}
       <div className="flex w-56 flex-col gap-2 opacity-60" aria-hidden="true">

@@ -1,3 +1,5 @@
+import { ArrowUpRight } from './ArrowUpRight'
+
 const FACTS = [
   { label: 'Based in', value: 'Cairo, Egypt' },
   { label: 'Education', value: 'B.Sc. Computers & AI, Helwan University (2024)' },
@@ -68,7 +70,7 @@ export function AboutSection() {
               rel="noreferrer"
               className="rounded-lg border border-line px-3.5 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
             >
-              {l.label} ↗
+              {l.label} <ArrowUpRight />
             </a>
           ))}
         </div>

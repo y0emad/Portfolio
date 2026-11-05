@@ -64,5 +64,5 @@ export const ENDPOINTS: Endpoint[] = [
 
 export const METHOD_STYLE: Record<Method, string> = {
   GET: 'text-accent',
-  POST: 'text-amber-300',
+  POST: 'text-warn',
 }

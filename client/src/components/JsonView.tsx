@@ -25,7 +25,7 @@ function highlight(json: string): ReactNode[] {
       )
     } else if (bool) {
       out.push(
-        <span key={key++} className="text-sky-300">
+        <span key={key++} className="text-info">
           {text}
         </span>,
       )
@@ -37,7 +37,7 @@ function highlight(json: string): ReactNode[] {
       )
     } else {
       out.push(
-        <span key={key++} className="text-amber-300">
+        <span key={key++} className="text-warn">
           {text}
         </span>,
       )

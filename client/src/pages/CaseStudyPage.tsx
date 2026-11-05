@@ -9,6 +9,7 @@ import { useProject } from '../hooks/useProject'
 import { useProjects } from '../hooks/useProjects'
 import { layerId } from '../lib/caseStudy'
 import type { CaseStudyLayer, Project } from '../types'
+import { ArrowUpRight } from '../components/ArrowUpRight'
 
 const CARD = 'rounded-xl border border-line bg-surface'
 const BUTTON = 'inline-flex items-center rounded-lg px-5 py-3 text-[15px] transition-colors'
@@ -188,7 +189,7 @@ function CaseStudyView({ slug }: { slug: string }) {
               rel="noreferrer"
               className={`${BUTTON} bg-accent font-semibold text-page hover:bg-accent-light`}
             >
-              Open the live site ↗
+              Open the live site <ArrowUpRight />
             </a>
           )}
           <a
@@ -197,7 +198,7 @@ function CaseStudyView({ slug }: { slug: string }) {
             rel="noreferrer"
             className={`${BUTTON} border border-line hover:border-accent hover:text-accent`}
           >
-            View the code on GitHub ↗
+            View the code on GitHub <ArrowUpRight />
           </a>
           {cs?.designUrl && (
             <a
@@ -206,7 +207,7 @@ function CaseStudyView({ slug }: { slug: string }) {
               rel="noreferrer"
               className={`${BUTTON} border border-line hover:border-accent hover:text-accent`}
             >
-              View the design in Figma ↗
+              View the design in Figma <ArrowUpRight />
             </a>
           )}
         </div>

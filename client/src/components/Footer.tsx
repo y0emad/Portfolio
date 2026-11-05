@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { useHealth } from '../hooks/useHealth'
+import { ArrowUpRight } from './ArrowUpRight'
 
 const PAGES = [
   { to: '/', label: 'Projects' },
@@ -47,7 +48,7 @@ export function Footer() {
             rel="noreferrer"
             className="w-fit font-mono text-xs text-muted transition-colors hover:text-accent"
           >
-            View this site's source ↗
+            View this site's source <ArrowUpRight />
           </a>
         </div>
 
@@ -72,7 +73,7 @@ export function Footer() {
               className="w-fit text-sm transition-colors hover:text-accent"
             >
               {l.label}
-              {l.href.startsWith('http') && ' ↗'}
+              {l.href.startsWith('http') && <ArrowUpRight />}
             </a>
           ))}
         </div>

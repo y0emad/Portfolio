@@ -3,10 +3,10 @@ type LogoMorphProps = { className?: string }
 export function LogoMorph({ className = 'size-16' }: LogoMorphProps) {
   const morph =
     '[transform-box:fill-box] origin-center transition-all duration-500 ease-out motion-reduce:transition-none'
-  const layer = `${morph} fill-emerald-500 stroke-zinc-950 stroke-2 [vector-effect:non-scaling-stroke]`
+  const layer = `${morph} fill-accent stroke-page stroke-2 [vector-effect:non-scaling-stroke]`
 
   return (
-    <span className={`group inline-block rounded-[22%] bg-zinc-950 ${className}`}>
+    <span className={`group inline-block rounded-[22%] bg-page ${className}`}>
       <svg viewBox="0 0 64 64" className="size-full" aria-hidden="true">
         <path
           d="M15 10 32 29 49 10"
@@ -14,7 +14,7 @@ export function LogoMorph({ className = 'size-16' }: LogoMorphProps) {
           strokeWidth="7"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`${morph} stroke-zinc-50 group-hover:opacity-0 group-hover:[transform:translateY(-12px)_scale(.5)]`}
+          className={`${morph} stroke-ink group-hover:opacity-0 group-hover:[transform:translateY(-12px)_scale(.5)]`}
         />
 
         <path
