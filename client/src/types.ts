@@ -19,6 +19,7 @@ export type CaseStudy = {
   layers: CaseStudyLayer[]
   results: string[]
   designUrl?: string
+  designPreview?: string
   screenshots?: Screenshot[]
 }
 

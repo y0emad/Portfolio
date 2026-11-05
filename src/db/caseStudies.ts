@@ -205,6 +205,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
     ],
     results: ['User and admin apps designed in Figma and built in React'],
-    designUrl: 'https://www.figma.com/design/bGBTAIQzYMPVlic3mJnec5/FinalPro?node-id=0-1',
+    designUrl:
+      'https://www.figma.com/proto/bGBTAIQzYMPVlic3mJnec5/FinalPro?node-id=34-444&p=f&page-id=0%3A1&starting-point-node-id=34%3A444',
+    designPreview: '/projects/printing-press/home.jpg',
   },
 }

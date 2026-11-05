@@ -207,7 +207,8 @@ function CaseStudyView({ slug }: { slug: string }) {
               rel="noreferrer"
               className={`${BUTTON} border border-line hover:border-accent hover:text-accent`}
             >
-              View the design in Figma <ArrowUpRight />
+              {cs.designUrl.includes('/proto/') ? 'Open the prototype in Figma' : 'View the design in Figma'}{' '}
+              <ArrowUpRight />
             </a>
           )}
         </div>
@@ -215,7 +216,7 @@ function CaseStudyView({ slug }: { slug: string }) {
 
       {cs?.screenshots && cs.screenshots.length > 0 && <Screenshots shots={cs.screenshots} />}
 
-      {cs?.designUrl && <FigmaEmbed url={cs.designUrl} title={project.title} />}
+      {cs?.designUrl && <FigmaEmbed url={cs.designUrl} title={project.title} preview={cs.designPreview} />}
 
       {cs && layers.length > 0 ? (
         <div>
