@@ -1,5 +1,13 @@
 # yousef.dev
 
+[![CI](https://github.com/y0emad/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/y0emad/Portfolio/actions/workflows/ci.yml)
+[![Live](https://img.shields.io/badge/live-yousef--dev.duckdns.org-10b981)](https://yousef-dev.duckdns.org)
+
+**Live:** https://yousef-dev.duckdns.org · [Status](https://yousef-dev.duckdns.org/status) ·
+[API explorer](https://yousef-dev.duckdns.org/api-explorer)
+
+![yousef.dev](client/public/og.png)
+
 My portfolio. Every page is served by an API I wrote, and the site shows that API working: a live status
 page, an API explorer that calls the real endpoints, and case studies loaded from the database.
 
