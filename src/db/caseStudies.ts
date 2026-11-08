@@ -121,41 +121,83 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   },
 
   'nasa-mission-control': {
-    role: 'Solo: client, API and deploy',
-    deploy: 'Docker · AWS EC2 · GitHub Actions',
+    role: 'Solo: 3D client, API and deploy',
+    deploy: 'Docker · Docker Hub · AWS EC2 · Caddy · GitHub Actions',
     layers: [
       {
-        name: 'Client',
-        tech: 'React',
-        title: 'Scheduling and aborting launches',
-        problem: 'Users need to schedule a launch to a target planet, see upcoming and past launches, and abort one.',
+        name: 'Launch',
+        tech: 'three.js · react-three-fiber · Web Audio',
+        title: 'A launch that waits for the server',
+        problem:
+          'A launch animation that plays no matter what would show a rocket flying even when the API rejects the mission, and a slow response would leave the user staring at a frozen screen.',
         decision:
-          'A React client talks only to the REST API. In production it is built and served by Express from the same image, so there is one origin and no CORS setup.',
+          'The request starts with the countdown. If the API has not answered by T-2 the count holds, and if it rejects the data the launch is scrubbed before ignition with the reasons the API returned. Smoke and flames are particle systems, the plume is a shader with Mach diamonds, and the engine sound is made live in the Web Audio API, getting quieter as the rocket climbs.',
+      },
+      {
+        name: 'Client',
+        tech: 'React 18 · Vite · three.js',
+        title: 'A 3D solar system that stays light',
+        problem:
+          '3D libraries are heavy, and loading them on every page would slow down the parts of the app that do not need them.',
+        decision:
+          'The solar system and the launch are lazy loaded, so the other pages never download three.js, and the launch scene is prefetched while you fill in the form. Planets start where they are today from their mean longitude, and the planet images were resized from 5 MB to about 850 KB. On phones the tables turn into cards.',
       },
       {
         name: 'Server',
-        tech: 'Express + TypeScript',
-        title: 'A typed REST API with real tests',
-        problem: 'Launch data comes in from the browser and has to be checked before it is saved.',
+        tech: 'Express + TypeScript · MongoDB Atlas',
+        title: 'Validating every launch',
+        problem: 'Launch data comes in from the browser and has to be checked before it is saved, including the destination planet.',
         decision:
-          'A REST API in Node.js, Express and TypeScript validates every request. Jest and Supertest integration tests run in GitHub Actions on Node 20 and 22.',
-      },
-      {
-        name: 'Database',
-        tech: 'MongoDB Atlas · Mongoose',
-        title: 'Launches and planets in the cloud',
-        problem: 'The data has to live outside the server so a new deploy does not lose it.',
-        decision: 'MongoDB Atlas holds launches and planets, with Mongoose schemas defining their shape.',
+          'A typed REST API validates each field and checks that the destination exists in the database. Flight numbers come from the latest launch, with a retry on a duplicate key. The solar system data from the NASA fact sheet is served by its own endpoint. Jest and Supertest integration tests run on Node 20 and 22.',
       },
       {
         name: 'Deploy',
-        tech: 'Docker · EC2',
-        title: 'One image for the whole app',
+        tech: 'Docker · EC2 · Caddy',
+        title: 'One image, deployed on every merge',
         problem: 'Running the client and the API separately means two deploys that can get out of sync.',
-        decision: 'The React build and the API ship together as one Docker image, deployed on AWS EC2.',
+        decision:
+          'A multi-stage Docker image ships the React build with the compiled API. Every merge to main publishes it to Docker Hub, and the EC2 server pulls it within two minutes, behind Caddy with HTTPS.',
       },
     ],
-    results: ['Integration tests on Node 20 and 22 in CI', 'Client and API shipped as one Docker image on EC2'],
+    results: [
+      'Live at nasa-dev.duckdns.org with HTTPS',
+      '3D launch that holds or scrubs based on the real API response',
+      '3D solar system with NASA data, lazy loaded',
+      'Integration tests on Node 20 and 22, deployed on every merge',
+    ],
+    screenshots: [
+      {
+        src: '/projects/nasa/launch-liftoff.jpg',
+        alt: 'A white two-stage rocket lifting off from the pad next to a red launch tower, with a wide smoke cloud and the countdown clock at T+00:01',
+        caption: 'Liftoff: the request to the API ran during the countdown',
+      },
+      {
+        src: '/projects/nasa/launch-maxq.jpg',
+        alt: 'The rocket climbing at an angle with a bright exhaust plume, altitude 3.8 km and speed 934 km/h shown below',
+        caption: 'Max Q, with live altitude and speed',
+      },
+      {
+        src: '/projects/nasa/launch-second-stage.jpg',
+        alt: 'The second stage firing a wide blue plume against a black sky full of stars',
+        caption: 'Second stage burn above the atmosphere',
+      },
+      {
+        src: '/projects/nasa/solar-overview.jpg',
+        alt: 'The 3D solar system with labelled orbits around the Sun and a simulation panel on the right',
+        caption: 'The solar system, placed where the planets are today',
+      },
+      {
+        src: '/projects/nasa/solar-saturn.jpg',
+        alt: 'A close-up of Saturn and its rings with a panel listing its diameter, mass, gravity and moons',
+        caption: 'Click a planet to fly to it and read its numbers',
+      },
+      {
+        src: '/projects/nasa/history-mobile.jpg',
+        alt: 'The launch history on a phone, with each launch shown as a card',
+        caption: 'On phones the tables turn into cards',
+        mobile: true,
+      },
+    ],
   },
 
   'food-delivery-api': {

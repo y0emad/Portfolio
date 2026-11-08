@@ -13,6 +13,7 @@ const SKILLS: { name: string; category: 'frontend' | 'backend' | 'database' | 'd
   { name: 'Ant Design', category: 'frontend' },
   { name: 'Material UI', category: 'frontend' },
   { name: 'Vite', category: 'frontend' },
+  { name: 'Three.js', category: 'frontend' },
   { name: 'HTML & CSS', category: 'frontend' },
   { name: 'Node.js', category: 'backend' },
   { name: 'Express', category: 'backend' },
@@ -93,25 +94,30 @@ const PROJECTS: (NewProject & { skills: string[] })[] = [
   {
     slug: 'nasa-mission-control',
     title: 'NASA Mission Control',
-    summary: 'A React client and a TypeScript REST API for scheduling space launches, backed by MongoDB Atlas.',
+    summary:
+      'Schedule a launch to a habitable exoplanet and watch it fly in 3D, then explore the solar system as it is today. React and three.js on a typed Express API.',
     body:
-      'A React client and a REST API in Node.js, Express and TypeScript, with MongoDB Atlas through Mongoose.\n\n' +
-      'Jest and Supertest integration tests run in GitHub Actions on Node 20 and 22, and the app ships as one Docker image on AWS EC2.',
+      'A mission control app with a React 18 client, built with Vite, and a REST API in Node.js, Express and TypeScript on MongoDB Atlas.\n\n' +
+      'Scheduling a mission plays a 3D launch made with three.js: countdown, ignition, liftoff, max Q, stage separation and the second stage burn, with engine sound made in the Web Audio API and camera shake. ' +
+      'The request to the API runs during the countdown, so the count holds while the server answers, and the launch is scrubbed before ignition, showing the reasons the server gave, if it rejects the data.\n\n' +
+      'A 3D solar system shows the Sun and the eight planets where they are today, with NASA fact sheet data served by the API. ' +
+      'Jest and Supertest integration tests run on Node 20 and 22, and every merge to main publishes a Docker image that the server picks up on its own.',
     repoUrl: 'https://github.com/y0emad/Nasa',
-    liveUrl: null,
-    featured: false,
+    liveUrl: 'https://nasa-dev.duckdns.org',
+    coverUrl: '/projects/nasa/launch-liftoff.jpg',
+    featured: true,
     skills: [
       'React',
+      'Three.js',
+      'Vite',
       'Node.js',
       'Express',
       'TypeScript',
       'MongoDB',
       'Mongoose',
       'Jest',
-      'Supertest',
       'Docker',
       'GitHub Actions',
-      'AWS',
     ],
   },
   {
