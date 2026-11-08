@@ -56,8 +56,8 @@ function ProjectCardSkeleton() {
 
 export function ProjectGrid() {
   const { data: projects, isPending, error, refetch, isRefetching } = useProjects()
-  const featured = projects?.find((p) => p.featured)
-  const rest = projects?.filter((p) => p !== featured) ?? []
+  const featured = projects?.filter((p) => p.featured) ?? []
+  const rest = projects?.filter((p) => !p.featured) ?? []
 
   return (
     <section id="projects" className="flex flex-col gap-5" aria-busy={isPending}>
@@ -70,12 +70,12 @@ export function ProjectGrid() {
           {isPending ? (
             <div className={`${CARD} h-72 animate-pulse sm:h-80`} aria-hidden="true" />
           ) : (
-            featured && <FeaturedProject project={featured} />
+            featured.map((p, i) => <FeaturedProject key={p.id} project={p} reverse={i % 2 === 1} />)
           )}
           <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5">
             {isPending
               ? Array.from({ length: 3 }, (_, i) => <ProjectCardSkeleton key={i} />)
-              : rest.map((p, i) => <ProjectCard key={p.id} project={p} index={i + (featured ? 1 : 0)} />)}
+              : rest.map((p, i) => <ProjectCard key={p.id} project={p} index={i + featured.length} />)}
           </div>
         </>
       )}

@@ -20,19 +20,23 @@ function BrowserFrame({ src, alt, url }: { src: string; alt: string; url: string
   )
 }
 
-export function FeaturedProject({ project }: { project: Project }) {
+export function FeaturedProject({ project, reverse = false }: { project: Project; reverse?: boolean }) {
   const host = project.liveUrl ? new URL(project.liveUrl).host : project.slug
   const results = project.caseStudy?.results.slice(0, 3) ?? []
 
   return (
-    <article className="group relative grid items-center gap-8 overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-accent/60 sm:p-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+    <article
+      className={`group relative grid items-center gap-8 overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-accent/60 sm:p-8 ${reverse ? 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]' : 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]'}`}
+    >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 -left-32 size-80 rounded-full bg-accent/10 blur-3xl"
+        className={`pointer-events-none absolute -top-32 size-80 rounded-full bg-accent/10 blur-3xl ${reverse ? '-right-32' : '-left-32'}`}
       />
 
       {project.coverUrl && (
-        <div className="relative transition-transform duration-500 group-hover:-translate-y-1 motion-reduce:transition-none">
+        <div
+          className={`relative transition-transform duration-500 group-hover:-translate-y-1 motion-reduce:transition-none ${reverse ? 'lg:order-2' : ''}`}
+        >
           <BrowserFrame src={project.coverUrl} alt={`${project.title} screenshot`} url={host} />
         </div>
       )}

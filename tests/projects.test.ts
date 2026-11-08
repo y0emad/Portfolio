@@ -18,10 +18,16 @@ describe('GET /api/projects', () => {
     expect(first).not.toHaveProperty('projectSkills')
   })
 
-  it('has exactly one featured project', async () => {
+  it('lists the featured projects with ClinicFlow first', async () => {
     const res = await request(app).get('/api/projects')
     const featured = res.body.projects.filter((p: { featured: boolean }) => p.featured)
-    expect(featured).toHaveLength(1)
+    expect(featured.map((p: { slug: string }) => p.slug)).toEqual(['clinicflow', 'nasa-mission-control'])
+  })
+
+  it('links the NASA project to its live site', async () => {
+    const res = await request(app).get('/api/projects/nasa-mission-control')
+    expect(res.body.project.liveUrl).toBe('https://nasa-dev.duckdns.org')
+    expect(res.body.project.caseStudy.screenshots).toHaveLength(6)
   })
 })
 
