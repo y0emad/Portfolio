@@ -27,7 +27,8 @@ describe('GET /api/projects', () => {
   it('links the NASA project to its live site', async () => {
     const res = await request(app).get('/api/projects/nasa-mission-control')
     expect(res.body.project.liveUrl).toBe('https://nasa-dev.duckdns.org')
-    expect(res.body.project.caseStudy.screenshots).toHaveLength(6)
+    expect(res.body.project.caseStudy.screenshots).toHaveLength(9)
+    expect(res.body.project.skills).toContain('Playwright')
   })
 })
 

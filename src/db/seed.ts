@@ -37,6 +37,7 @@ const SKILLS: { name: string; category: 'frontend' | 'backend' | 'database' | 'd
   { name: 'Vitest', category: 'tools' },
   { name: 'Jest', category: 'tools' },
   { name: 'Supertest', category: 'tools' },
+  { name: 'Playwright', category: 'tools' },
   { name: 'Git', category: 'tools' },
   { name: 'Postman', category: 'tools' },
   { name: 'Figma', category: 'tools' },
@@ -95,13 +96,15 @@ const PROJECTS: (NewProject & { skills: string[] })[] = [
     slug: 'nasa-mission-control',
     title: 'NASA Mission Control',
     summary:
-      'Schedule a launch to a habitable exoplanet and watch it fly in 3D, then explore the solar system as it is today. React and three.js on a typed Express API.',
+      'Schedule a launch to a habitable exoplanet and watch it fly from the pad to orbit in 3D, then explore those planets and the solar system. React and three.js on a typed Express API, tested end to end with Playwright.',
     body:
       'A mission control app with a React 18 client, built with Vite, and a REST API in Node.js, Express and TypeScript on MongoDB Atlas.\n\n' +
-      'Scheduling a mission plays a 3D launch made with three.js: countdown, ignition, liftoff, max Q, stage separation and the second stage burn, with engine sound made in the Web Audio API and camera shake. ' +
-      'The request to the API runs during the countdown, so the count holds while the server answers, and the launch is scrubbed before ignition, showing the reasons the server gave, if it rejects the data.\n\n' +
-      'A 3D solar system shows the Sun and the eight planets where they are today, with NASA fact sheet data served by the API. ' +
-      'Jest and Supertest integration tests run on Node 20 and 22, and every merge to main publishes a Docker image that the server picks up on its own.',
+      'Scheduling a mission plays a 3D launch made with three.js, from a pad at dusk with a service tower, lightning masts and a flame trench: countdown, liftoff, max Q, stage separation, fairing separation, engine cutoff, ' +
+      'and the spacecraft separating and unfolding its solar panels over a textured Earth. The request to the API runs during the countdown, so the count holds while the server answers, ' +
+      'and the launch is scrubbed before ignition, showing the reasons the server gave, if it rejects the data.\n\n' +
+      'The 7 habitable Kepler planets can be explored in 3D, each around its star inside the zone where liquid water could exist, with the numbers worked out from the Kepler data by the API. ' +
+      'A 3D solar system shows the planets where they are today, Upcoming missions count down live, and the launch page shows NASA’s Astronomy Picture of the Day.\n\n' +
+      'Jest and Supertest test the API, 18 Playwright tests drive the real app in a browser, and every merge to main publishes a Docker image that the server picks up on its own.',
     repoUrl: 'https://github.com/y0emad/Nasa',
     liveUrl: 'https://nasa-dev.duckdns.org',
     coverUrl: '/projects/nasa/launch-liftoff.jpg',
@@ -116,6 +119,7 @@ const PROJECTS: (NewProject & { skills: string[] })[] = [
       'MongoDB',
       'Mongoose',
       'Jest',
+      'Playwright',
       'Docker',
       'GitHub Actions',
     ],
