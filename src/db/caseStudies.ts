@@ -121,7 +121,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   },
 
   'nasa-mission-control': {
-    role: 'Solo: 3D client, API and deploy',
+    role: 'Solo: 3D client, API, tests and deploy',
     deploy: 'Docker · Docker Hub · AWS EC2 · Caddy · GitHub Actions',
     layers: [
       {
@@ -131,24 +131,43 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         problem:
           'A launch animation that plays no matter what would show a rocket flying even when the API rejects the mission, and a slow response would leave the user staring at a frozen screen.',
         decision:
-          'The request starts with the countdown. If the API has not answered by T-2 the count holds, and if it rejects the data the launch is scrubbed before ignition with the reasons the API returned. Smoke and flames are particle systems, the plume is a shader with Mach diamonds, and the engine sound is made live in the Web Audio API, getting quieter as the rocket climbs.',
+          'The request starts with the countdown. If the API has not answered by T-2 the count holds, and if it rejects the data the launch is scrubbed before ignition with the reasons the API returned. The flight goes on past the second stage: the fairing halves fall away, the engine cuts off, and the spacecraft separates and unfolds its solar panels over a textured Earth turned so the pad sits on Florida. Smoke and flames are particle systems, the plume is a shader with Mach diamonds, and the engine sound is made live in the Web Audio API.',
       },
       {
-        name: 'Client',
-        tech: 'React 18 · Vite · three.js',
-        title: 'A 3D solar system that stays light',
+        name: 'Realism',
+        tech: 'Canvas textures · PBR · postprocessing',
+        title: 'A rocket that looks built, not modelled',
         problem:
-          '3D libraries are heavy, and loading them on every page would slow down the parts of the app that do not need them.',
+          'Plain coloured shapes look like a toy, and downloading photo textures and models for every part would make the launch slow to open.',
         decision:
-          'The solar system and the launch are lazy loaded, so the other pages never download three.js, and the launch scene is prefetched while you fill in the form. Planets start where they are today from their mean longitude, and the planet images were resized from 5 MB to about 850 KB. On phones the tables turn into cards.',
+          'Every surface is drawn in code when the launch opens: painted panels with weld lines and rivets, frost on the oxygen tank that melts after liftoff, carbon fibre, engine bells, grid fins, gold foil and solar cells, each with its own roughness and normal map. The pad has a flame trench, a launch mount, a service tower, lightning masts and a water tower under a physically based dusk sky, with shadows and bloom on devices that can afford them.',
       },
       {
-        name: 'Server',
-        tech: 'Express + TypeScript · MongoDB Atlas',
-        title: 'Validating every launch',
-        problem: 'Launch data comes in from the browser and has to be checked before it is saved, including the destination planet.',
+        name: 'Exoplanets',
+        tech: 'Express API · three.js shaders',
+        title: 'Turning a CSV row into a solar system',
+        problem:
+          'The Kepler data has the star temperature and size and how much starlight a planet gets, but not how big the orbit is or what the star looks like.',
         decision:
-          'A typed REST API validates each field and checks that the destination exists in the database. Flight numbers come from the latest launch, with a retry on a duplicate key. The solar system data from the NASA fact sheet is served by its own endpoint. Jest and Supertest integration tests run on Node 20 and 22.',
+          'The API works out the star brightness from its size and temperature, the orbit size from that brightness and the starlight, and the colour and class of the star. The client draws each of the 7 planets around its star inside the zone where liquid water could exist, with a surface picked from its temperature and size. After a launch, Fly to opens the planet the mission is heading for.',
+      },
+      {
+        name: 'Speed',
+        tech: 'Shader warm-up · Lighthouse',
+        title: 'From a 7 second freeze to a running countdown',
+        problem:
+          'Profiling showed the page froze for about 6 of the 7.5 seconds before the countdown started, compiling shaders, and every material was compiled twice: once for the screen and once for the bloom pass.',
+        decision:
+          'The scene is compiled once, for the render target it is drawn into, and polled without blocking the page. The countdown starts straight away and the pad fades in after about 2 seconds. Hashed assets are cached for a year, responses are gzipped, the background went from 778 KB to 38 KB as WebP, and weaker devices get fewer particles and a simpler sky.',
+      },
+      {
+        name: 'Testing',
+        tech: 'Playwright · Jest · Supertest',
+        title: 'Tests that drive the real app',
+        problem:
+          'The launch depends on timing and on what the server answers, which unit tests do not see.',
+        decision:
+          '18 Playwright tests run the built app in Chromium with the API mocked: a launch that reaches orbit, one that holds while the server is slow, one the server rejects, the exoplanet explorer, Watch on the Upcoming page, reduced motion and phones. They found a real bug: after a slow answer the launch stayed on Hold until the end of the flight. Jest and Supertest cover the API on Node 20 and 22.',
       },
       {
         name: 'Deploy',
@@ -156,30 +175,46 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         title: 'One image, deployed on every merge',
         problem: 'Running the client and the API separately means two deploys that can get out of sync.',
         decision:
-          'A multi-stage Docker image ships the React build with the compiled API. Every merge to main publishes it to Docker Hub, and the EC2 server pulls it within two minutes, behind Caddy with HTTPS.',
+          'A multi-stage Docker image ships the React build with the compiled API. Every merge to main runs both test suites, publishes the image to Docker Hub, and the EC2 server pulls it within two minutes, behind Caddy with HTTPS.',
       },
     ],
     results: [
       'Live at nasa-dev.duckdns.org with HTTPS',
-      '3D launch that holds or scrubs based on the real API response',
-      '3D solar system with NASA data, lazy loaded',
-      'Integration tests on Node 20 and 22, deployed on every merge',
+      'Launch from pad to spacecraft separation that holds or scrubs on the real API response',
+      '7 habitable exoplanets and the solar system in 3D',
+      'Launch view starts in about 2 seconds instead of 7.5',
+      '18 Playwright tests plus API tests, deployed on every merge',
     ],
     screenshots: [
       {
         src: '/projects/nasa/launch-liftoff.jpg',
-        alt: 'A white two-stage rocket lifting off from the pad next to a red launch tower, with a wide smoke cloud and the countdown clock at T+00:01',
+        alt: 'A white two-stage rocket lifting off at dusk beside a red service tower, with lightning masts, floodlights and a water tower around the pad and the clock at T+00:01',
         caption: 'Liftoff: the request to the API ran during the countdown',
       },
       {
         src: '/projects/nasa/launch-maxq.jpg',
-        alt: 'The rocket climbing at an angle with a bright exhaust plume, altitude 3.8 km and speed 934 km/h shown below',
+        alt: 'The rocket climbing at an angle through a dusk sky with a bright exhaust plume, the coast and ocean below',
         caption: 'Max Q, with live altitude and speed',
       },
       {
-        src: '/projects/nasa/launch-second-stage.jpg',
-        alt: 'The second stage firing a wide blue plume against a black sky full of stars',
-        caption: 'Second stage burn above the atmosphere',
+        src: '/projects/nasa/launch-fairing.jpg',
+        alt: 'The second stage firing a wide blue plume above the curve of the Earth, with the spacecraft showing where the fairing came off',
+        caption: 'Fairing separation above the atmosphere',
+      },
+      {
+        src: '/projects/nasa/launch-spacecraft.jpg',
+        alt: 'A gold-foil spacecraft unfolding long solar panels above the dark curve of the Earth and its blue atmosphere',
+        caption: 'The spacecraft separates and unfolds its solar panels',
+      },
+      {
+        src: '/projects/nasa/watch-in-flight.jpg',
+        alt: 'The spacecraft in deep space with the Earth behind it and a mission clock reading three days since launch',
+        caption: 'Watch joins a mission that already launched, in flight',
+      },
+      {
+        src: '/projects/nasa/exoplanets.jpg',
+        alt: 'A close-up of Kepler-452 b drawn as a dry orange world, next to a panel comparing its size with Earth and listing its orbit and star',
+        caption: 'Each habitable Kepler planet around its own star',
       },
       {
         src: '/projects/nasa/solar-overview.jpg',
@@ -187,9 +222,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         caption: 'The solar system, placed where the planets are today',
       },
       {
-        src: '/projects/nasa/solar-saturn.jpg',
-        alt: 'A close-up of Saturn and its rings with a panel listing its diameter, mass, gravity and moons',
-        caption: 'Click a planet to fly to it and read its numbers',
+        src: '/projects/nasa/space-today.jpg',
+        alt: 'The launch form above a section showing the Astronomy Picture of the Day, a dwarf galaxy, with its explanation',
+        caption: 'NASA’s picture of the day on the launch page',
       },
       {
         src: '/projects/nasa/history-mobile.jpg',
