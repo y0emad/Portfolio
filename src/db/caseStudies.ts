@@ -235,29 +235,125 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
   },
 
-  'food-delivery-api': {
-    role: 'Solo: API and data',
-    deploy: 'Node.js · MongoDB · Redis',
+  'luqma-fast': {
+    role: 'Solo: design, client, API and payments',
+    deploy: 'Docker · GitHub Actions',
     layers: [
       {
-        name: 'Server',
-        tech: 'Express + TypeScript',
-        title: 'Sessions that stay secure',
-        problem: 'Users need to stay logged in, but a long-lived token that leaks is a long-lived problem.',
+        name: 'Client',
+        tech: 'React · Ant Design · Leaflet',
+        title: 'Pick a spot on the map, not a pair of numbers',
+        problem:
+          'A delivery address typed by hand is often wrong, and asking restaurant owners or admins for latitude and longitude does not work.',
         decision:
-          'Short-lived JWT access tokens with refresh tokens to get new ones, covering auth, orders and sessions.',
+          'Everyone sets a location on an OpenStreetMap map: search a place, use the phone location or drag the pin, and the street, area and city fill in by themselves. The same map picker serves customers, restaurant owners and admins, in Arabic (RTL) and English, with dark mode and a bottom bar on phones.',
       },
       {
-        name: 'Database',
-        tech: 'MongoDB · Redis',
-        title: 'Caching without running out of connections',
+        name: 'Payments',
+        tech: 'Paymob · HMAC-SHA512',
+        title: 'Card payments the client cannot fake',
         problem:
-          'The app was opening a new Redis connection on every request, which caused connection problems under load.',
+          'The browser comes back from the payment page saying it paid, but anyone can open that link, and the webhook and the return can arrive in any order or twice.',
         decision:
-          'The Redis client was rewritten as a singleton that the whole app shares. MongoDB holds the data and Redis caches the hot reads.',
+          'An order is only marked paid after the server checks Paymob\'s HMAC on the webhook or the return and the amount matches. Handling is idempotent, so the same payment counted twice changes nothing. Unpaid orders expire after 30 minutes, and if the restaurant cancels a paid order it is refunded automatically.',
+      },
+      {
+        name: 'Orders',
+        tech: 'Express 5 · MongoDB',
+        title: 'One order, one status, even with two clicks',
+        problem:
+          'A restaurant could accept an order the customer is cancelling at the same moment, and a restaurant open from 1 PM to 1 AM breaks a simple time check.',
+        decision:
+          'Each step from waiting to delivered is a single atomic update that only matches the status it expects, with every change saved in the order history. Opening hours are checked in Cairo time, including hours past midnight, and the server works out every price itself.',
+      },
+      {
+        name: 'Security',
+        tech: 'JWT · Redis',
+        title: 'Sessions that can be taken back',
+        problem: 'A long-lived token that leaks stays valid, and login forms invite guessing.',
+        decision:
+          'Short access tokens with refresh tokens that rotate on every use and live in Redis, so logging out ends the session. Email codes are stored hashed and lock after 5 tries, login and password reset never say whether an email exists, and auth routes are rate limited.',
+      },
+      {
+        name: 'Testing',
+        tech: 'Vitest · Supertest · GitHub Actions',
+        title: '90 tests on every push',
+        problem: 'Payments, refunds and order steps are easy to break without noticing.',
+        decision:
+          '90 Vitest and Supertest tests run against real MongoDB and Redis, including payments with signed Paymob callbacks, refunds, reviews and the restaurant dashboard. GitHub Actions runs them, lints and builds the client, and builds the Docker image on every push.',
       },
     ],
-    results: ['JWT access and refresh tokens', 'One shared Redis connection instead of one per request'],
+    results: [
+      'Cash on delivery or card through Paymob, with automatic refunds',
+      'Live order tracking for customers and a live board for restaurants',
+      'Map based locations for customers, restaurants and admins',
+      'Arabic and English, dark mode, and a phone layout',
+      '90 API tests in CI, packaged as one Docker image',
+    ],
+    screenshots: [
+      {
+        src: '/projects/luqma-fast/home-en.jpg',
+        alt: 'The Luqma Fast home page with a red banner reading Hungry? We got you, a search box, a free delivery offer and the restaurants near Zamalek',
+        caption: 'Restaurants near the delivery location',
+      },
+      {
+        src: '/projects/luqma-fast/location-picker.jpg',
+        alt: 'A dialog asking where to deliver, with a saved home address, a street map of Zamalek with a red pin, and the street, building, floor and apartment filled in',
+        caption: 'The delivery location is set on a map',
+      },
+      {
+        src: '/projects/luqma-fast/restaurant-en.jpg',
+        alt: 'A koshary restaurant page with a photo banner, opening hours, delivery fee, two menu items with Add buttons and a ratings summary',
+        caption: 'A restaurant with its menu and ratings',
+      },
+      {
+        src: '/projects/luqma-fast/cart-en.jpg',
+        alt: 'The cart with two items and the total, next to the delivery address, a mobile number field and a choice between cash on delivery and card through Paymob',
+        caption: 'Checkout with cash or card',
+      },
+      {
+        src: '/projects/luqma-fast/order-tracking.jpg',
+        alt: 'An order being prepared, with each step from waiting for the restaurant to delivered and the order summary beside it',
+        caption: 'The customer follows the order live',
+      },
+      {
+        src: '/projects/luqma-fast/owner-board.jpg',
+        alt: 'The restaurant live orders board with columns for waiting, accepted, being prepared and on the way, and an order card with an Out for delivery button',
+        caption: 'The restaurant moves each order to the next step',
+      },
+      {
+        src: '/projects/luqma-fast/owner-dashboard.jpg',
+        alt: 'The restaurant dashboard with today\'s orders, revenue, average order and delivered count, best sellers and ratings',
+        caption: 'The owner dashboard',
+      },
+      {
+        src: '/projects/luqma-fast/order-delivered-ar.jpg',
+        alt: 'A delivered order in Arabic, laid out right to left, with a five star rating and the order steps',
+        caption: 'Arabic, right to left, with the review left after delivery',
+      },
+      {
+        src: '/projects/luqma-fast/home-dark.jpg',
+        alt: 'The home page in dark mode',
+        caption: 'Dark mode',
+      },
+      {
+        src: '/projects/luqma-fast/admin-restaurants.jpg',
+        alt: 'The admin restaurants page with five restaurant cards showing whether each is open, its hours and delivery fee',
+        caption: 'Admins manage restaurants and cities',
+      },
+      {
+        src: '/projects/luqma-fast/mobile-home-ar.jpg',
+        alt: 'The Arabic home page on a phone with the delivery location, the search box and a bottom navigation bar',
+        caption: 'On phones, in Arabic',
+        mobile: true,
+      },
+      {
+        src: '/projects/luqma-fast/mobile-order.jpg',
+        alt: 'Order tracking on a phone, showing the order being prepared',
+        caption: 'Tracking an order on a phone',
+        mobile: true,
+      },
+    ],
   },
 
   'printing-press': {

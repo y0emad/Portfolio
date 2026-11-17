@@ -14,6 +14,7 @@ const SKILLS: { name: string; category: 'frontend' | 'backend' | 'database' | 'd
   { name: 'Material UI', category: 'frontend' },
   { name: 'Vite', category: 'frontend' },
   { name: 'Three.js', category: 'frontend' },
+  { name: 'Leaflet', category: 'frontend' },
   { name: 'HTML & CSS', category: 'frontend' },
   { name: 'Node.js', category: 'backend' },
   { name: 'Express', category: 'backend' },
@@ -24,6 +25,7 @@ const SKILLS: { name: string; category: 'frontend' | 'backend' | 'database' | 'd
   { name: 'FastAPI', category: 'backend' },
   { name: 'Python', category: 'backend' },
   { name: 'GraphQL', category: 'backend' },
+  { name: 'Paymob', category: 'backend' },
   { name: 'PostgreSQL', category: 'database' },
   { name: 'MongoDB', category: 'database' },
   { name: 'MySQL', category: 'database' },
@@ -125,16 +127,44 @@ const PROJECTS: (NewProject & { skills: string[] })[] = [
     ],
   },
   {
-    slug: 'food-delivery-api',
-    title: 'Food Delivery API',
-    summary: 'A food delivery backend with JWT auth, orders and sessions, using MongoDB and Redis caching.',
+    slug: 'luqma-fast',
+    title: 'Luqma Fast',
+    summary:
+      'A bilingual food delivery app for Cairo: restaurants near you on a map, cash or card checkout through Paymob, live order tracking and a dashboard for restaurant owners.',
     body:
-      'Auth, orders and sessions with JWT access and refresh tokens, MongoDB for data and Redis for caching.\n\n' +
-      'The Redis client was rewritten as a singleton to stop the app from opening a new connection on every request.',
-    repoUrl: 'https://github.com/y0emad/SwiggyApp',
+      'Customers drop a pin on the map to set where they are, see the restaurants that are open and close to them, fill a cart from one restaurant and pay cash on delivery or by card through Paymob. ' +
+      'After ordering they follow it from waiting for the restaurant to delivered, and can rate the restaurant once it arrives.\n\n' +
+      'Restaurant owners get a dashboard with the day\'s numbers and best sellers, a live board that moves each order to the next step, their menu, and their opening hours and location on a map. ' +
+      'Admins add restaurants and cities from a map and read the messages sent from the contact page.\n\n' +
+      'The API is Express 5 and TypeScript on MongoDB, with refresh tokens in Redis. Card payments are verified with Paymob\'s HMAC on both the webhook and the return, unpaid orders expire after 30 minutes, ' +
+      'and a paid order the restaurant cancels is refunded automatically. Opening hours are worked out in Cairo time, including hours past midnight.\n\n' +
+      'The React client uses Ant Design, Tailwind CSS, React Query and Leaflet with OpenStreetMap, in Arabic (RTL) and English with dark mode. 90 Vitest and Supertest tests run on every push in GitHub Actions, which also builds the Docker image.',
+    repoUrl: 'https://github.com/y0emad/Luqma-Fast',
     liveUrl: null,
-    featured: false,
-    skills: ['Node.js', 'Express', 'TypeScript', 'MongoDB', 'Mongoose', 'Redis', 'JWT'],
+    coverUrl: '/projects/luqma-fast/home-en.jpg',
+    featured: true,
+    skills: [
+      'React',
+      'TypeScript',
+      'Ant Design',
+      'Tailwind CSS',
+      'React Query',
+      'React Router',
+      'Vite',
+      'Leaflet',
+      'Node.js',
+      'Express',
+      'REST APIs',
+      'JWT',
+      'Paymob',
+      'MongoDB',
+      'Mongoose',
+      'Redis',
+      'Docker',
+      'GitHub Actions',
+      'Vitest',
+      'Supertest',
+    ],
   },
   {
     slug: 'printing-press',
