@@ -21,7 +21,7 @@ describe('GET /api/projects', () => {
   it('lists the featured projects with ClinicFlow first', async () => {
     const res = await request(app).get('/api/projects')
     const featured = res.body.projects.filter((p: { featured: boolean }) => p.featured)
-    expect(featured.map((p: { slug: string }) => p.slug)).toEqual(['clinicflow', 'nasa-mission-control'])
+    expect(featured.map((p: { slug: string }) => p.slug)).toEqual(['clinicflow', 'nasa-mission-control', 'luqma-fast'])
   })
 
   it('links the NASA project to its live site', async () => {
