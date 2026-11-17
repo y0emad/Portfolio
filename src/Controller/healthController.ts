@@ -12,6 +12,10 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   ])
 }
 
+export function getLive(_req: Request, res: Response) {
+  res.json({ success: true, status: 'ok' })
+}
+
 export async function getHealth(_req: Request, res: Response) {
   const base = {
     uptime: Math.round(process.uptime()),

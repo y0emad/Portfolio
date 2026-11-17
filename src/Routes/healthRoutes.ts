@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { getHealth } from '../Controller/healthController.js'
+import { getHealth, getLive } from '../Controller/healthController.js'
 
 class HealthRoutes {
   router = Router()
@@ -10,6 +10,7 @@ class HealthRoutes {
 
   getHealth() {
     this.router.get('/', getHealth)
+    this.router.get('/live', getLive)
   }
 }
 
