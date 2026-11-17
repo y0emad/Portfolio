@@ -38,3 +38,12 @@ describe('unknown routes', () => {
     expect(res.headers['content-security-policy']).toContain("frame-src 'self' https://embed.figma.com")
   })
 })
+
+describe('GET /health/live', () => {
+  it('answers without touching the database', async () => {
+    const res = await request(app).get('/health/live')
+
+    expect(res.status).toBe(200)
+    expect(res.body).toEqual({ success: true, status: 'ok' })
+  })
+})
